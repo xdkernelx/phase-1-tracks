@@ -4,6 +4,20 @@
 # your solver has tried to solve it.
 # How you represent your board is up to you!
 def solve(board_string)
+
+board.each do |row|
+  row.each do |cell|
+    if !cell
+      check_row(row, board)
+      # if !check_row(row)
+      #   board[row.index, cell.index] = check_row(row)
+      # end
+    # elsif !cell
+    #   check_col(row, cell.index)
+    end
+  end
+end
+
 end
 
 # Returns a boolean indicating whether
@@ -20,3 +34,5 @@ end
 # form `solve` returns.
 def pretty_board(board)
 end
+
+
