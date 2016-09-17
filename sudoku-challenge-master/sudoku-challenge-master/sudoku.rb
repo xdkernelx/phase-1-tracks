@@ -3,18 +3,59 @@
 # something representing a board after
 # your solver has tried to solve it.
 # How you represent your board is up to you!
-current_grid =
-[["1", nil, "5", "8", "3", "2", "7", "6", "9"],
- [nil, "9", "4", nil, "7", "6", "4", nil, "5"],
- ["2", nil, "3", "4", nil, nil, "8", "1", "9"],
- [nil, "1", "9", nil, nil, "7", "3", nil, "6"],
- ["7", "6", "2", nil, "8", "3", nil, "9", nil],
- [nil, nil, nil, nil, "6", "1", nil, "5", nil],
- [nil, nil, "7", "6", nil, nil, nil, "3", nil],
- ["4", "3", "1", nil, "2", nil, "5", nil, "1"],
- ["6", nil, "6", "3", nil, "8", "9", nil, nil]]
+board_string = File.readlines('sudoku_puzzles.txt').first.chomp
 
+def generate_grid(board_string)
+  current_grid = Array.new(9)
+  current_grid.length.times do |row|
+    current_grid[row] = Array.new(9)
+  end
+  current_grid[3][2] = 2
+  parse_char = board_string.split('')
+  parse_count = 0
 
+  for row in 0...current_grid.length
+    for col in 0...current_grid[row].length
+      if (parse_char[parse_count] =~ /[0-9]/)
+        current_grid[row][col] = parse_char[parse_count]
+      end
+      parse_count += 1
+    end
+  end
+
+  return current_grid
+end
+
+current_grid = generate_grid(board_string)
+
+def generate_subgrids(board)
+  quadrants = Array.new(9)
+  quadrants.length.times do |row|
+    quadrants[row]  = Array.new(9)
+  end
+
+  lower_bound = 0
+  upper_bound = 3
+  row = 0
+
+  9.times do |i|
+    temp = []
+    3.times do |j|
+      board[row][lower_bound...upper_bound].each do |element|
+        temp << element
+      end
+      row += 1
+      row = 0 if row == 9
+    end
+
+    lower_bound +=3 if (i + 1) % 3 == 0
+    upper_bound +=3 if (i + 1) % 3 == 0
+    quadrants[i] = temp
+    temp = []
+  end
+
+  return quadrants
+end
 # def create_grid_grid(current_grid)
 #  grid_grid = Array.new(9,Array.new(9))
 #   current_grid.each do |row|
@@ -55,7 +96,6 @@ current_grid =
 #   grid_grid
 # end
 
-p create_grid_grid(current_grid)
 
  # [["1",nil,"5",nil,"9","4","2",nil,"3"],
  #  ["8","3","2",nil,"7","6","4",nil,nil],
@@ -71,7 +111,7 @@ p create_grid_grid(current_grid)
 
 def run(current_grid)
  rotated_grid = current_grid.transpose
-
+ grid_grid = generate_subgrids(current_grid)
 
 
 
@@ -97,23 +137,23 @@ current_grid.each do |row|
             if col_num <= 2
               grid_num = 0
             elsif col_num <=5
-              grid_num = 1
+              grid_num = 3
             else
-              grid_num = 2
+              grid_num = 6
             end
           elsif row_num <= 5
             if col_num <= 2
-              grid_num = 3
+              grid_num = 1
             elsif col_num <=5
               grid_num = 4
             else
-              grid_num = 5
+              grid_num = 7
             end
           else
             if col_num <= 2
-              grid_num = 6
+              grid_num = 2
             elsif col_num <=5
-              grid_num = 7
+              grid_num = 5
             else
               grid_num = 8
             end
@@ -135,14 +175,32 @@ current_grid.each do |row|
 current_grid
 end
 
-# run(current_grid)
-# p current_grid
-# run(current_grid)
-# run(current_grid)
-# run(current_grid)
-# run(current_grid)
-# run(current_grid)
-# p current_grid
+run(current_grid)
+p current_grid
+run(current_grid)
+run(current_grid)
+run(current_grid)
+run(current_grid)
+run(current_grid)
+run(current_grid)
+run(current_grid)
+run(current_grid)
+run(current_grid)
+run(current_grid)
+run(current_grid)
+run(current_grid)
+run(current_grid)
+run(current_grid)
+run(current_grid)
+run(current_grid)
+run(current_grid)
+run(current_grid)
+run(current_grid)
+
+
+
+
+p current_grid
 
 
 def solve(board_string)

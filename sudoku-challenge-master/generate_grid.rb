@@ -5,7 +5,7 @@ def generate_grid(board_string)
   current_grid.length.times do |row|
     current_grid[row] = Array.new(9)
   end
-  current_grid[3][2] = 2
+
   parse_char = board_string.split('')
   parse_count = 0
 
@@ -20,5 +20,3 @@ def generate_grid(board_string)
 
   return current_grid
 end
-
-p generate_grid(board_string)
