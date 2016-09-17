@@ -56,58 +56,6 @@ def generate_subgrids(board)
 
   return quadrants
 end
-# def create_grid_grid(current_grid)
-#  grid_grid = Array.new(9,Array.new(9))
-#   current_grid.each do |row|
-#     row.each_with_index do |cell, index|
-#       row_num = current_grid.index(row)
-#       col_num = index
-
-#       if row_num <= 2
-#           if col_num <= 2
-#               grid_num = 0
-#           elsif col_num <=5
-#               grid_num = 1
-#           else
-#               grid_num = 2
-#           end
-#       elsif row_num <= 5
-#           if col_num <= 2
-#               grid_num = 3
-#           elsif col_num <=5
-#               grid_num = 4
-#           else
-#               grid_num = 5
-#           end
-#       else
-#           if col_num <= 2
-#               grid_num = 6
-#           elsif col_num <=5
-#               grid_num = 7
-#           else
-#               grid_num = 8
-#           end
-#       end
-
-#       grid_grid[grid_num][index] = cell
-#     end
-
-#   end
-#   grid_grid
-# end
-
-
- # [["1",nil,"5",nil,"9","4","2",nil,"3"],
- #  ["8","3","2",nil,"7","6","4",nil,nil],
- #  ["7","6","9","4",nil,"5","8","1","8"],
- #  [nil,"1","9","7","6","2",nil,nil,nil],
- #  [nil,nil,"7",nil,"8","3",nil,"6","1"],
- #  ["3",nil,"6",nil,"9",nil,nil,"5",nil],
- #  [nil,nil,"7","4","3","1","6",nil,"6"],
- #  ["6",nil,nil,nil,"2",nil,"3",nil,"8"],
- #  [nil,"3",nil,"5",nil,"1","9",nil,nil]
- #  ]
-
 
 def run(current_grid)
  rotated_grid = current_grid.transpose
