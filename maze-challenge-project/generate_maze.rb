@@ -54,7 +54,7 @@ def populate_maze(maze)
     end
   end
 
-  p path = path_values(maze)
+  path = path_values(maze)
 
   maze.each_with_index do |row, idx1|
     row.each_with_index do |cell, idx2|
@@ -85,13 +85,58 @@ def generate_maze(length, width)
   return maze
 end
 
+def shortest_path(maze)
+  start_path = [maze.length - 1, 1]
+  end_path = [0, maze[0].length - 2]
+  current_spot = [maze.length - 1, 1]
+  indices = [start_path]
+  collection_indices = []
+  possible = []
+  temp = []
+  iter_count = maze.length * maze[0].length
+  
+  iter_count.times do 
+    while !possible.include?(end_path) do
+      possible = scan_valid(current_spot, maze)
+      possible.delete_if {|position| position[0] > current_spot[0]}
+      possible.delete_if {|position| position[1] < current_spot[1]}
+      possible.delete_if {|position| maze[position[0]][position[1]] == "*"}
+      temp = possible.sample
+      if !temp
+        break
+      elsif temp == end_path
+        return indices
+      elsif !indices.include?(temp) && maze[temp[0]][temp[1]] != "*"
+        current_spot = temp
+        indices << temp
+      end
+    end
+    if temp
+      indices << end_path
+      collection_indices << indices
+    end
+    current_spot = [maze.length - 1, 1]
+    indices = [start_path]
+  end
+
+  collection_indices.sort!
+
+  return collection_indices[0]
+
+end
+
 sample = [["*", "*", "*", nil, "*"],
           ["*", nil, nil, nil, "*"],
           ["*", nil, nil, nil, "*"],
           ["*", nil, nil, nil, "*"],
           ["*", nil, "*", "*", "*"]]
 
-test = generate_maze(5, 5)
+test = generate_maze(15, 15)
 test.length.times do |row|
   p test[row]
 end
+
+short_path = shortest_path(test)
+p "The shortest path is #{short_path.length}"
+p "The specific path is: "
+p "#{short_path}"
