@@ -17,7 +17,7 @@ def generate_grid(board_string)
   for row in 0...current_grid.length
     for col in 0...current_grid[row].length
       if (parse_char[parse_count] =~ /[0-9]/)
-        current_grid[row][col] = parse_char[parse_count]
+        current_grid[row][col] = parse_char[parse_count].to_i
       end
       parse_count += 1
     end
@@ -57,98 +57,38 @@ def generate_subgrids(board)
   return quadrants
 end
 
+def deep_copy(o)
+  Marshal.load(Marshal.dump(o))
+end
+
 def run(current_grid)
- rotated_grid = current_grid.transpose
- grid_grid = generate_subgrids(current_grid)
+
+  possible = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  
+  current_grid.each_with_index do |row, idx1|
+    row.each_with_index do |col, idx2|
+      # possible_row = check_row(row)
+      # possible_col = check_col(current_grid.transpose, idx2)
+      # possible_grid = check_grid(grid)
+      # if (possible_grid & possible_row & possible_col).length == 1
+      #   current_grid[idx1, idx2] = (possible_grid & possible_row & possible_col)[0]
+      # end
 
 
-
-
-possible = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-
-
-current_grid.each do |row|
-  row.each_with_index do |cell, index|
-    if row[index] == nil
-      row_num = current_grid.index(row)
-      col_num = index
-      #check_row
-      row_result = possible - current_grid[row_num]
-      if row_result.length == 1
-        current_grid[row_num][col_num] = row_result.join
-      else
-        col_result = row_result - rotated_grid[col_num]
-        if col_result.length == 1
-          current_grid[row_num][col_num] = col_result.join
-        else
-          if row_num <= 2
-            if col_num <= 2
-              grid_num = 0
-            elsif col_num <=5
-              grid_num = 3
-            else
-              grid_num = 6
-            end
-          elsif row_num <= 5
-            if col_num <= 2
-              grid_num = 1
-            elsif col_num <=5
-              grid_num = 4
-            else
-              grid_num = 7
-            end
-          else
-            if col_num <= 2
-              grid_num = 2
-            elsif col_num <=5
-              grid_num = 5
-            else
-              grid_num = 8
-            end
-
-          end
-          grid_result = col_result - grid_grid[grid_num]
-          if grid_result.length == 1
-            current_grid[row_num][col_num] = grid_result.join
-          end
-        end
-
-      end
-
-      end
     end
   end
 
-
-current_grid
 end
 
-run(current_grid)
-p current_grid
-run(current_grid)
-run(current_grid)
-run(current_grid)
-run(current_grid)
-run(current_grid)
-run(current_grid)
-run(current_grid)
-run(current_grid)
-run(current_grid)
-run(current_grid)
-run(current_grid)
-run(current_grid)
-run(current_grid)
-run(current_grid)
-run(current_grid)
-run(current_grid)
-run(current_grid)
-run(current_grid)
-run(current_grid)
+test = run(current_grid)
 
-
-
-
-p current_grid
+9.times do |j|
+  p test[j]
+end
+p "*" * 20
+9.times do |i|
+  p current_grid[i]
+end
 
 
 def solve(board_string)

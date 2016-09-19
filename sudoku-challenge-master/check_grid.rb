@@ -1,3 +1,3 @@
-def check_grid(grid_arr)
-
+def check_grid(grid, quadrant)
+  check_row(grid[quadrant])
 end
