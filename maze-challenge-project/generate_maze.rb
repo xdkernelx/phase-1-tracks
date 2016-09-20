@@ -1,3 +1,5 @@
+# Modified version of word_search logic
+# It omits valid locations with a diagonal relation
 def scan_valid(location, puzzle)
   valid_positions = []
   row = location[0]
@@ -15,6 +17,11 @@ def scan_valid(location, puzzle)
   return valid_positions
 end
 
+
+# Brute forces it's way to the target location. 
+# There may be a case where a path may not be found
+# Especially with a large differential between the maze length vs width
+# Let's ignore that for now
 def path_values(maze)
 
   start_path = [maze.length - 1, 1]
@@ -41,6 +48,10 @@ def path_values(maze)
   return indices
 end
 
+
+# Creates a border of asterisks at the left and right edges as we well at the top
+# and bottom with the exception of the start and end locations, which are hard-coded
+# to the dynamic dimension of the maze double Array
 def populate_maze(maze)
 
   #Create borders and an initial start, end location.
@@ -54,6 +65,7 @@ def populate_maze(maze)
     end
   end
 
+  # It only creats a path after borders have been made clear
   path = path_values(maze)
 
   maze.each_with_index do |row, idx1|
@@ -69,6 +81,8 @@ def populate_maze(maze)
   return maze
 end
 
+
+#Creates a double Array, representing a maze
 def generate_maze(length, width)
 
   if length < 5 || width < 5
@@ -85,6 +99,10 @@ def generate_maze(length, width)
   return maze
 end
 
+# Based on the maze dimensions, iterate a given number of times
+# and collect valid collection of indices. 
+# Mathematically speaking, shortest path, if not blocked,
+# should be length + width - 3
 def shortest_path(maze)
   start_path = [maze.length - 1, 1]
   end_path = [0, maze[0].length - 2]
@@ -105,33 +123,23 @@ def shortest_path(maze)
       if !temp
         break
       elsif temp == end_path
-        return indices
+        return indices << end_path
       elsif !indices.include?(temp) && maze[temp[0]][temp[1]] != "*"
         current_spot = temp
         indices << temp
       end
     end
-    if temp
-      indices << end_path
-      collection_indices << indices
-    end
+    indices << end_path
+    collection_indices << indices
     current_spot = [maze.length - 1, 1]
     indices = [start_path]
   end
-
-  collection_indices.sort!
 
   return collection_indices[0]
 
 end
 
-sample = [["*", "*", "*", nil, "*"],
-          ["*", nil, nil, nil, "*"],
-          ["*", nil, nil, nil, "*"],
-          ["*", nil, nil, nil, "*"],
-          ["*", nil, "*", "*", "*"]]
-
-test = generate_maze(15, 15)
+test = generate_maze(13, 13)
 test.length.times do |row|
   p test[row]
 end
